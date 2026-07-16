@@ -1,0 +1,64 @@
+{
+  "generatedAt": "2026-07-13T00:00:00.000Z",
+  "source": "T3.2 split engine backfill for the real First Heartbeat",
+  "note": "This was a paid call to /svc/forge. It generated the ShieldCheck package but was not a ShieldCheck-owned heartbeat.",
+  "accounting": {
+    "serviceCall": {
+      "id": "sc_forge_b8f8787c7c13",
+      "tenantSlug": "forge",
+      "agentId": "agentforge-3746",
+      "founderId": "agentforge-core",
+      "serviceId": "ai-agent-business-builder",
+      "status": "delivered",
+      "currency": "USDT",
+      "amountAtomic": "1000000",
+      "payer": "0xfc9b58e81bce27c2f46558d501228d935f93e802",
+      "paymentTransaction": "0xb8f8787c7c13de4b6bcdf9139b43da86a02c4e88fa90289539952ca601a7b29b",
+      "network": "eip155:196",
+      "quotedAt": null,
+      "deliveredAt": "2026-07-04T00:00:00.000Z",
+      "ledgerTransactionId": "lt_forge_b8f8787c7c13",
+      "evidenceRef": "ops/evidence/2026-07-04-first-heartbeat.md"
+    },
+    "ledgerTransaction": {
+      "id": "lt_forge_b8f8787c7c13",
+      "serviceCallId": "sc_forge_b8f8787c7c13",
+      "occurredAt": "2026-07-04T00:00:00.000Z",
+      "currency": "USDT",
+      "entries": [
+        {
+          "id": "lt_forge_b8f8787c7c13:wallet",
+          "account": "asset:wallet:eip155:196:settlement",
+          "direction": "debit",
+          "currency": "USDT",
+          "amountAtomic": "1000000",
+          "memo": "Settlement received for forge/ai-agent-business-builder"
+        },
+        {
+          "id": "lt_forge_b8f8787c7c13:forge",
+          "account": "revenue:forge:forge",
+          "direction": "credit",
+          "currency": "USDT",
+          "amountAtomic": "1000000",
+          "memo": "AgentForge platform share"
+        }
+      ],
+      "metadata": {
+        "tenantSlug": "forge",
+        "agentId": "agentforge-3746",
+        "founderId": "agentforge-core",
+        "serviceId": "ai-agent-business-builder",
+        "paymentTransaction": "0xb8f8787c7c13de4b6bcdf9139b43da86a02c4e88fa90289539952ca601a7b29b",
+        "network": "eip155:196",
+        "splitPolicy": {
+          "founderBps": 0,
+          "forgeBps": 10000
+        }
+      }
+    },
+    "split": {
+      "founderAmountAtomic": "0",
+      "forgeAmountAtomic": "1000000"
+    }
+  }
+}

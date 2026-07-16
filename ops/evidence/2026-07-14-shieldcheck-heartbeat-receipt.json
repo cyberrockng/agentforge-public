@@ -1,0 +1,162 @@
+{
+  "schema": "agentforge.service-receipt.v1",
+  "receiptId": "psr_shieldcheck_642e7372000a",
+  "title": "ShieldCheck paid heartbeat service receipt",
+  "subject": {
+    "tenantSlug": "shieldcheck",
+    "agentId": "agentforge-shieldcheck-01",
+    "founderId": "founder-abiola-apata",
+    "serviceId": "phishing_scam_review",
+    "servicePath": "/svc/shieldcheck"
+  },
+  "evidence": {
+    "paymentTx": "0x642e7372000a648352d03813f5591439d774ebdf06b3429dfe0885b8edb686d5",
+    "network": "eip155:196",
+    "payer": "0xfc9b58e81bce27c2f46558d501228d935f93e802",
+    "currency": "USDT",
+    "amountAtomic": "400000",
+    "amountDisplay": "0.40 USDT",
+    "serviceCallId": "sc_shieldcheck_642e7372000a",
+    "ledgerTransactionId": "lt_shieldcheck_642e7372000a",
+    "deliveredAt": "2026-07-14T09:28:28.509Z",
+    "evidenceRef": "ops/evidence/2026-07-14-shieldcheck-heartbeat.md"
+  },
+  "issuedAt": "2026-07-14T09:31:00.000Z",
+  "issuer": "AgentForge",
+  "caveat": "This receipt proves one real paid non-QA call to ShieldCheck /svc/shieldcheck. It is a controlled heartbeat proof, not a guarantee of safety, revenue, OKX approval, or full public launch.",
+  "commitments": {
+    "anchorId": "0x802bc0c334e571d529dc7487e6a0249f1faeafe51f1eacece9fa4ce4d48936ba",
+    "subjectHash": "0x9d92e1f140c458c26f9fa2f0e81890934acfd20d0cec700ff22d7f386af19968",
+    "evidenceHash": "0x184a1877837791437ab0c590cba2a354f889fc3173288809393282d2a9fcdf3e",
+    "metadataHash": "0xf1bab6c55408ab970911c39ba0955050b492a4e6e35d922cd377915871e90b8f"
+  },
+  "anchor": {
+    "status": "anchored",
+    "contractAddress": "0xfd43a18b2c09903922fa452f6813e7577c48569d",
+    "anchorId": "0x802bc0c334e571d529dc7487e6a0249f1faeafe51f1eacece9fa4ce4d48936ba",
+    "anchorTx": "0xe55041d2c7c9daf5d1b3c7ebd2f743e0be2a5afbf21277e603c62a8970fb6273",
+    "blockNumber": "65253281",
+    "transactionIndex": 1,
+    "gasUsed": "192826",
+    "anchoredAtUtc": "2026-07-14T09:45:17Z",
+    "issuer": "0xfc9b58e81BcE27c2f46558D501228D935f93e802",
+    "securityScan": {
+      "tool": "onchainos security tx-scan",
+      "chain": "xlayer",
+      "action": "",
+      "riskItemDetail": [],
+      "warnings": null
+    },
+    "readback": {
+      "rpc": "https://rpc.xlayer.tech",
+      "hasAnchor": true,
+      "subjectHash": "0x9d92e1f140c458c26f9fa2f0e81890934acfd20d0cec700ff22d7f386af19968",
+      "evidenceHash": "0x184a1877837791437ab0c590cba2a354f889fc3173288809393282d2a9fcdf3e",
+      "metadataHash": "0xf1bab6c55408ab970911c39ba0955050b492a4e6e35d922cd377915871e90b8f"
+    }
+  },
+  "paymentResponse": {
+    "amount": null,
+    "errorMessage": null,
+    "errorReason": null,
+    "network": "eip155:196",
+    "payer": "0xfc9b58e81bce27c2f46558d501228d935f93e802",
+    "status": "success",
+    "success": true,
+    "transaction": "0x642e7372000a648352d03813f5591439d774ebdf06b3429dfe0885b8edb686d5"
+  },
+  "ledger": {
+    "serviceCallId": "sc_shieldcheck_642e7372000a",
+    "transactionId": "lt_shieldcheck_642e7372000a",
+    "split": {
+      "founderAmountAtomic": "320000",
+      "forgeAmountAtomic": "80000"
+    }
+  },
+  "deliverable": {
+    "title": "Phishing & Scam Review",
+    "reviewType": "phishing_scam_review",
+    "verdict": "likely-scam",
+    "redFlags": [
+      "The offer uses reward or urgency language that often appears in phishing flows.",
+      "The contact path is a private or social message rather than a verified official channel.",
+      "The flow asks for wallet connection, signature, approval, or spending permission."
+    ],
+    "safeNextSteps": [
+      "Do not share seed phrases, private keys, OTPs, or recovery files.",
+      "Do not sign a transaction or message unless you understand the exact permission being granted.",
+      "Use a clean browser session and verify the official project domain from independent sources.",
+      "If a wallet has already connected, review and revoke unnecessary token approvals from a trusted tool.",
+      "Move slowly; urgent rewards, surprise airdrops, and private DM links are common scam patterns."
+    ],
+    "boundaries": [
+      "Do not give financial advice, token recommendations, price predictions, or trading guidance.",
+      "Do not attempt or promise recovery of stolen funds.",
+      "Do not request or accept seed phrases, private keys, or secret credentials.",
+      "Do not assist with offensive hacking or targeting other wallets or systems.",
+      "Do not guarantee that a wallet, contract, approval, or platform is completely safe."
+    ]
+  },
+  "runtime": {
+    "railwayDeploymentId": "fb399ed5-779b-4861-931e-b0bb78c5f6d0",
+    "runtimeUrl": "https://agentforge-runtime-production-9a4d.up.railway.app"
+  },
+  "web": {
+    "vercelDeploymentId": "dpl_BPrqLLgPAv4DXc4aBQ6WjFu5zfDL",
+    "stableAlias": "https://web-one-peach-2vp0hv3dr1.vercel.app"
+  },
+  "productionVerification": {
+    "railwayDeploymentId": "1ea745e9-8423-48f3-9f0e-2b8d8c4859aa",
+    "vercelDeploymentId": "dpl_BPrqLLgPAv4DXc4aBQ6WjFu5zfDL",
+    "verifiedAtUtc": "2026-07-14T09:51:11Z",
+    "routes": [
+      {
+        "url": "https://agentforge-runtime-production-9a4d.up.railway.app/ledger/summary",
+        "httpStatus": 200,
+        "expectedContent": [
+          "\"paidCalls\":2",
+          "sc_shieldcheck_642e7372000a",
+          "\"founderPayableAtomic\":\"320000\""
+        ]
+      },
+      {
+        "url": "https://web-one-peach-2vp0hv3dr1.vercel.app/verify/psr_shieldcheck_642e7372000a",
+        "httpStatus": 200,
+        "expectedContent": [
+          "ShieldCheck paid heartbeat service receipt",
+          "X Layer anchor",
+          "0xe55041d2c7c9daf5d1b3c7ebd2f743e0be2a5afbf21277e603c62a8970fb6273",
+          "0x642e7372000a648352d03813f5591439d774ebdf06b3429dfe0885b8edb686d5",
+          "0x802bc0c334e571d529dc7487e6a0249f1faeafe51f1eacece9fa4ce4d48936ba"
+        ]
+      },
+      {
+        "url": "https://web-one-peach-2vp0hv3dr1.vercel.app/verify/0xe55041d2c7c9daf5d1b3c7ebd2f743e0be2a5afbf21277e603c62a8970fb6273",
+        "httpStatus": 200,
+        "expectedContent": [
+          "ShieldCheck paid heartbeat service receipt",
+          "0xe55041d2c7c9daf5d1b3c7ebd2f743e0be2a5afbf21277e603c62a8970fb6273"
+        ]
+      },
+      {
+        "url": "https://web-one-peach-2vp0hv3dr1.vercel.app/dashboard",
+        "httpStatus": 200,
+        "expectedContent": [
+          "ShieldCheck",
+          "sc_shieldcheck_642e7372000a",
+          "0.400000 USDT",
+          "0.320000 USDT"
+        ]
+      },
+      {
+        "url": "https://web-one-peach-2vp0hv3dr1.vercel.app/guild",
+        "httpStatus": 200,
+        "expectedContent": [
+          "ShieldCheck",
+          "psr_shieldcheck_642e7372000a",
+          "completed one real paid heartbeat"
+        ]
+      }
+    ]
+  }
+}

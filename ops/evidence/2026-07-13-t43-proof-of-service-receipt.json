@@ -1,0 +1,94 @@
+{
+  "schema": "agentforge.service-receipt.v1",
+  "receiptId": "psr_forge_b8f8787c7c13",
+  "title": "AgentForge First Heartbeat service receipt",
+  "subject": {
+    "tenantSlug": "forge",
+    "agentId": "agentforge-3746",
+    "founderId": "agentforge-core",
+    "serviceId": "ai-agent-business-builder",
+    "servicePath": "/svc/forge"
+  },
+  "evidence": {
+    "kind": "paid_non_qa_service_call",
+    "paymentTx": "0xb8f8787c7c13de4b6bcdf9139b43da86a02c4e88fa90289539952ca601a7b29b",
+    "network": "eip155:196",
+    "payer": "0xfc9b58e81bce27c2f46558d501228d935f93e802",
+    "currency": "USDT",
+    "amountAtomic": "1000000",
+    "amountDisplay": "1 USDT",
+    "serviceCallId": "sc_forge_b8f8787c7c13",
+    "ledgerTransactionId": "lt_forge_b8f8787c7c13",
+    "deliveredAt": "2026-07-04T00:00:00.000Z",
+    "evidenceRef": "ops/evidence/2026-07-04-first-heartbeat.md",
+    "ledgerBackfillRef": "ops/evidence/2026-07-13-t32-ledger-backfill.json"
+  },
+  "issuedAt": "2026-07-13T22:00:20.000Z",
+  "issuer": "AgentForge",
+  "caveat": "This receipt proves a paid call to AgentForge /svc/forge; it is not a ShieldCheck customer call.",
+  "commitments": {
+    "anchorId": "0xc5d32389823167b3a0927992294e31a4bafc904e07b2a3bfd171495eb00c0f7a",
+    "subjectHash": "0x9c0be40f30d1415fb03f52e09312cff41547af53be90c4d0c748dea80a4a22b6",
+    "evidenceHash": "0x36f8bdb5d65614afe9372dd46c2e0ecd6092f6b18e37382ea1306f031ba719ba",
+    "metadataHash": "0xa001ad222b56dc957e501690cdd537ac6b505c7c264770ca9629f42813b22d21"
+  },
+  "anchor": {
+    "contractAddress": "0xfd43a18b2c09903922fa452f6813e7577c48569d",
+    "txHash": "0x369e30fc61c11e8b9ccfc7a495aa310feff15fd7192ec358727e50c793f2ca9b",
+    "blockNumber": "65211025",
+    "gasUsed": "192850",
+    "anchoredAtUtc": "2026-07-13T22:01:01Z",
+    "hasAnchorVerified": true,
+    "contractReadback": {
+      "subjectHash": "0x9c0be40f30d1415fb03f52e09312cff41547af53be90c4d0c748dea80a4a22b6",
+      "evidenceHash": "0x36f8bdb5d65614afe9372dd46c2e0ecd6092f6b18e37382ea1306f031ba719ba",
+      "metadataHash": "0xa001ad222b56dc957e501690cdd537ac6b505c7c264770ca9629f42813b22d21",
+      "issuer": "0xfc9b58e81BcE27c2f46558D501228D935f93e802",
+      "anchoredAt": "1783980061"
+    }
+  },
+  "security": {
+    "txScan": {
+      "ok": true,
+      "riskItemDetail": [],
+      "warnings": null,
+      "revertReason": ""
+    }
+  },
+  "productionVerification": {
+    "vercelDeploymentId": "dpl_9zzvy8ZRCrFrTFGHz6Ux5Tsy8CkQ",
+    "deploymentUrl": "https://web-6fxhiz7i0-cyberrockng-s-projects.vercel.app",
+    "stableAlias": "https://web-one-peach-2vp0hv3dr1.vercel.app",
+    "verifiedAtUtc": "2026-07-13T22:05:00Z",
+    "routes": [
+      {
+        "url": "https://web-one-peach-2vp0hv3dr1.vercel.app/verify/psr_forge_b8f8787c7c13",
+        "httpStatus": 200,
+        "expectedContent": [
+          "AgentForge First Heartbeat service receipt",
+          "Verified proof-of-service receipt",
+          "0x369e30fc61c11e8b9ccfc7a495aa310feff15fd7192ec358727e50c793f2ca9b",
+          "0xc5d32389823167b3a0927992294e31a4bafc904e07b2a3bfd171495eb00c0f7a",
+          "does not prove a paid ShieldCheck customer call"
+        ]
+      },
+      {
+        "url": "https://web-one-peach-2vp0hv3dr1.vercel.app/dashboard",
+        "httpStatus": 200,
+        "expectedContent": [
+          "Proof-of-service receipt",
+          "/verify/psr_forge_b8f8787c7c13"
+        ]
+      }
+    ]
+  },
+  "supersededAnchors": [
+    {
+      "reason": "Local time was labeled as UTC in issuedAt. The anchor was not used as the receipt of record.",
+      "anchorId": "0x273476f819b3a7763dde869b53db06d936619af24684b3f74ede2ee3270561c5",
+      "txHash": "0x635301188e5588de447c6c276711103ffb6e13a41dde1e3b91128ccf1983da02",
+      "blockNumber": "65210919",
+      "metadataHash": "0xc602a9e3d36327c1d69f52ac4b9d1374e120840fe3dd2af9922ad1a6b9d90389"
+    }
+  ]
+}

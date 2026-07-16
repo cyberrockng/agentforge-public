@@ -1,0 +1,32 @@
+{
+  "name": "agentforge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "dev:web": "npm run dev --workspace @agentforge/web",
+    "dev:runtime": "npm run dev --workspace @agentforge/runtime",
+    "health:runtime": "node apps/runtime/dist/server.js",
+    "ledger:check": "npm run ledger:check --workspace @agentforge/payments --",
+    "lint": "eslint .",
+    "pretest": "npm run build --workspace @agentforge/core",
+    "test": "npm run test --workspaces --if-present",
+    "pretypecheck": "npm run build --workspace @agentforge/core",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "verify:runtime": "npm run verify:runtime --workspace @agentforge/runtime --",
+    "verify:release": "npm test && npm run typecheck && npm run lint && npm run build && npm audit --omit=dev"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.4",
+    "globals": "^17.7.0",
+    "typescript-eslint": "^8.63.0"
+  }
+}

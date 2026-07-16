@@ -1,0 +1,164 @@
+{
+  "schema": "agentforge.service-receipt.v1",
+  "receiptId": "psr_launch-kit_3b103d9976a5",
+  "title": "Launch Kit paid heartbeat service receipt",
+  "subject": {
+    "tenantSlug": "launch-kit",
+    "agentId": "agentforge-launch-kit",
+    "founderId": "agentforge-core",
+    "serviceId": "okxai-launch-kit",
+    "servicePath": "/svc/launch-kit"
+  },
+  "evidence": {
+    "paymentTx": "0x3b103d9976a5c8d9af2b7598fdf7d9e8e65200c00dadc94a210dc9cbabdc164a",
+    "network": "eip155:196",
+    "payer": "0xfc9b58e81bce27c2f46558d501228d935f93e802",
+    "currency": "USDT",
+    "amountAtomic": "450000",
+    "amountDisplay": "0.45 USDT",
+    "serviceCallId": "sc_launch-kit_3b103d9976a5",
+    "ledgerTransactionId": "lt_launch-kit_3b103d9976a5",
+    "deliveredAt": "2026-07-14T10:06:36.493Z",
+    "evidenceRef": "ops/evidence/2026-07-14-launch-kit-heartbeat.md"
+  },
+  "issuedAt": "2026-07-14T10:07:41.000Z",
+  "issuer": "AgentForge",
+  "caveat": "This receipt proves one real paid non-QA call to Launch Kit /svc/launch-kit. It is a self-operated proof call for the Launch Kit tenant, not an independent customer review, OKX approval guarantee, revenue guarantee, or full public-launch claim.",
+  "commitments": {
+    "anchorId": "0xb4cd48ad852b8a66793313bd90915fc281048ca4fad673def1f7d7842172adf9",
+    "subjectHash": "0xad314e3d7dde19707789f1ad3b774b819d620e9ffd7fa03572cf3eaeb279ed1d",
+    "evidenceHash": "0x7ed35b38adf365a0d744515dcdd628fb053249f498e6e244396f66218d1c2ef2",
+    "metadataHash": "0x8576930c4cda070b9e915a1f3ec55849f11d3018753d469f1e8941b1c8685b39"
+  },
+  "anchor": {
+    "status": "pending_explicit_anchor_approval",
+    "contractAddress": "0xfd43a18b2c09903922fa452f6813e7577c48569d",
+    "note": "No X Layer anchor was broadcast for this Launch Kit receipt in the paid-proof turn."
+  },
+  "paymentResponse": {
+    "amount": null,
+    "errorMessage": null,
+    "errorReason": null,
+    "network": "eip155:196",
+    "payer": "0xfc9b58e81bce27c2f46558d501228d935f93e802",
+    "status": "success",
+    "success": true,
+    "transaction": "0x3b103d9976a5c8d9af2b7598fdf7d9e8e65200c00dadc94a210dc9cbabdc164a"
+  },
+  "ledger": {
+    "serviceCallId": "sc_launch-kit_3b103d9976a5",
+    "transactionId": "lt_launch-kit_3b103d9976a5",
+    "split": {
+      "founderAmountAtomic": "0",
+      "forgeAmountAtomic": "450000"
+    }
+  },
+  "deliverable": {
+    "title": "OKX.AI Launch Kit",
+    "projectName": "AgentForge Launch Kit",
+    "verdict": "ready-with-caveats",
+    "checks": [
+      {
+        "name": "Service reality match",
+        "status": "pass"
+      },
+      {
+        "name": "Public delivery path",
+        "status": "pass"
+      },
+      {
+        "name": "Payment/readiness signal",
+        "status": "pass"
+      },
+      {
+        "name": "Feedback captured",
+        "status": "pass"
+      },
+      {
+        "name": "Proof bundle started",
+        "status": "pass"
+      }
+    ],
+    "suggestedFee": "0.45 USDT"
+  },
+  "runtime": {
+    "runtimeUrl": "https://agentforge-runtime-production-9a4d.up.railway.app",
+    "railwayDeploymentId": "003eff7e-93d8-4dbf-9fb4-518a0a68cb11",
+    "ledgerVerifiedAtUtc": "2026-07-14T10:06:45.278Z",
+    "ledgerSummary": {
+      "paidCalls": 3,
+      "settledAtomic": "1850000",
+      "forgeRevenueAtomic": "1530000",
+      "founderPayableAtomic": "320000",
+      "launchKitPaidCalls": 1,
+      "launchKitSettledAtomic": "450000",
+      "launchKitForgeRevenueAtomic": "450000",
+      "launchKitFounderPayableAtomic": "0"
+    }
+  },
+  "web": {
+    "status": "deployed",
+    "vercelDeploymentId": "dpl_FtfLHMmgADYxuBnpnGjUy1EYG2Xf",
+    "stableAlias": "https://web-one-peach-2vp0hv3dr1.vercel.app"
+  },
+  "productionVerification": {
+    "status": "passed",
+    "verifiedAtUtc": "2026-07-14T10:16:57Z",
+    "routes": [
+      {
+        "url": "https://agentforge-runtime-production-9a4d.up.railway.app/ledger/summary",
+        "httpStatus": 200,
+        "expectedContent": [
+          "\"paidCalls\":3",
+          "sc_launch-kit_3b103d9976a5",
+          "Paid heartbeat complete; self-operated soft-launch",
+          "\"settledAtomic\":\"1850000\""
+        ]
+      },
+      {
+        "url": "https://web-one-peach-2vp0hv3dr1.vercel.app/verify/psr_launch-kit_3b103d9976a5",
+        "httpStatus": 200,
+        "expectedContent": [
+          "Launch Kit paid heartbeat service receipt",
+          "Anchor pending",
+          "self-operated proof call",
+          "0x3b103d9976a5c8d9af2b7598fdf7d9e8e65200c00dadc94a210dc9cbabdc164a"
+        ]
+      },
+      {
+        "url": "https://web-one-peach-2vp0hv3dr1.vercel.app/verify/0x3b103d9976a5c8d9af2b7598fdf7d9e8e65200c00dadc94a210dc9cbabdc164a",
+        "httpStatus": 200,
+        "expectedContent": [
+          "Launch Kit paid heartbeat service receipt"
+        ]
+      },
+      {
+        "url": "https://web-one-peach-2vp0hv3dr1.vercel.app/guild",
+        "httpStatus": 200,
+        "expectedContent": [
+          "Launch Kit",
+          "Self-operated AgentForge proof tenant",
+          "psr_launch-kit_3b103d9976a5",
+          "not counted as an external founder"
+        ]
+      },
+      {
+        "url": "https://web-one-peach-2vp0hv3dr1.vercel.app/dashboard",
+        "httpStatus": 200,
+        "expectedContent": [
+          "Launch Kit",
+          "0.450000 USDT",
+          "Paid heartbeat complete; self-operated soft-launch"
+        ]
+      },
+      {
+        "url": "https://web-one-peach-2vp0hv3dr1.vercel.app/a/launch-kit",
+        "httpStatus": 200,
+        "expectedContent": [
+          "Launch Kit",
+          "0.45 USDT"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+.next/
+dist/
+.turbo/
+.vercel/
+.railway/
+.env
+.env.*
+!.env.example
+npm-debug.log*
+*.tsbuildinfo
+ops/audit-log.md

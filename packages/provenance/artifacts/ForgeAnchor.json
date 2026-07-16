@@ -1,0 +1,470 @@
+{
+  "contractName": "ForgeAnchor",
+  "sourceName": "contracts/ForgeAnchor.sol",
+  "compiler": {
+    "package": "solc@0.8.36",
+    "version": "0.8.36+commit.8a079791.Emscripten.clang"
+  },
+  "sourceHash": "0x029ae28739dfea198a6f3182b948765caa5e97aa2aa529232848a1e7f3851eb5",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "initialOwner",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "anchorId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "AnchorAlreadyExists",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "caller",
+          "type": "address"
+        }
+      ],
+      "name": "NotOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ZeroAddress",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "field",
+          "type": "string"
+        }
+      ],
+      "name": "ZeroBytes32",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "anchorId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "subjectHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "evidenceHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "metadataHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "issuer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint64",
+          "name": "anchoredAt",
+          "type": "uint64"
+        }
+      ],
+      "name": "AnchorWritten",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "anchorId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "subjectHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "evidenceHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "metadataHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "anchor",
+      "outputs": [
+        {
+          "internalType": "uint64",
+          "name": "anchoredAt",
+          "type": "uint64"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "anchorId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getAnchor",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "subjectHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "evidenceHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "metadataHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "issuer",
+              "type": "address"
+            },
+            {
+              "internalType": "uint64",
+              "name": "anchoredAt",
+              "type": "uint64"
+            }
+          ],
+          "internalType": "struct ForgeAnchor.AnchorRecord",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "anchorId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "hasAnchor",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x60a0604052348015600e575f5ffd5b5060405161059c38038061059c833981016040819052602b916061565b6001600160a01b03811660515760405163d92e233d60e01b815260040160405180910390fd5b6001600160a01b0316608052608c565b5f602082840312156070575f5ffd5b81516001600160a01b03811681146085575f5ffd5b9392505050565b6080516104f26100aa5f395f818160ed015261020101526104f25ff3fe608060405234801561000f575f5ffd5b506004361061004a575f3560e01c806331f0afff1461004e5780637feb51d9146100855780638da5cb5b146100e8578063fe552aeb14610127575b5f5ffd5b61007061005c366004610476565b5f9081526001602052604090205460ff1690565b60405190151581526020015b60405180910390f35b610098610093366004610476565b610153565b60405161007c91908151815260208083015190820152604080830151908201526060808301516001600160a01b03169082015260809182015167ffffffffffffffff169181019190915260a00190565b61010f7f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b03909116815260200161007c565b61013a61013536600461048d565b6101f5565b60405167ffffffffffffffff909116815260200161007c565b6101936040518060a001604052805f81526020015f81526020015f81526020015f6001600160a01b031681526020015f67ffffffffffffffff1681525090565b505f9081526020818152604091829020825160a081018452815481526001820154928101929092526002810154928201929092526003909101546001600160a01b0381166060830152600160a01b900467ffffffffffffffff16608082015290565b5f336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146102465760405163245aecd360e01b81523360048201526024015b60405180910390fd5b8461027f57604051630a767c7560e01b8152602060048201526008602482015267185b98da1bdc925960c21b604482015260640161023d565b836102bb57604051630a767c7560e01b815260206004820152600b60248201526a0e6eac4d4cac6e890c2e6d60ab1b604482015260640161023d565b826102f857604051630a767c7560e01b815260206004820152600c60248201526b0caecd2c8cadcc6ca90c2e6d60a31b604482015260640161023d565b8161033557604051630a767c7560e01b815260206004820152600c60248201526b0dacae8c2c8c2e8c290c2e6d60a31b604482015260640161023d565b5f8581526001602052604090205460ff161561036757604051630e9f1d2f60e01b81526004810186905260240161023d565b506040805160a0810182528481526020808201858152828401858152336060850181815267ffffffffffffffff42818116608089019081525f8e81528089528a812099518a5596516001808b0191909155955160028a01559251600390980180549351909216600160a01b026001600160e01b03199093166001600160a01b0398909816979097179190911790559281905290849020805460ff19169091179055915190918491869188917f0941631e39c0894c129c294384ebef5348028935c721ae4dda3478bca4dac1c7916104669188919088909283526001600160a01b0391909116602083015267ffffffffffffffff16604082015260600190565b60405180910390a4949350505050565b5f60208284031215610486575f5ffd5b5035919050565b5f5f5f5f608085870312156104a0575f5ffd5b505082359460208401359450604084013593606001359250905056fea2646970667358221220b92f2e9cc5abf128fb766bb0aa6d973c8228163c2e4bfd8fd75b12f62b84cf7164736f6c63430008240033",
+  "deployedBytecode": "0x608060405234801561000f575f5ffd5b506004361061004a575f3560e01c806331f0afff1461004e5780637feb51d9146100855780638da5cb5b146100e8578063fe552aeb14610127575b5f5ffd5b61007061005c366004610476565b5f9081526001602052604090205460ff1690565b60405190151581526020015b60405180910390f35b610098610093366004610476565b610153565b60405161007c91908151815260208083015190820152604080830151908201526060808301516001600160a01b03169082015260809182015167ffffffffffffffff169181019190915260a00190565b61010f7f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b03909116815260200161007c565b61013a61013536600461048d565b6101f5565b60405167ffffffffffffffff909116815260200161007c565b6101936040518060a001604052805f81526020015f81526020015f81526020015f6001600160a01b031681526020015f67ffffffffffffffff1681525090565b505f9081526020818152604091829020825160a081018452815481526001820154928101929092526002810154928201929092526003909101546001600160a01b0381166060830152600160a01b900467ffffffffffffffff16608082015290565b5f336001600160a01b037f000000000000000000000000000000000000000000000000000000000000000016146102465760405163245aecd360e01b81523360048201526024015b60405180910390fd5b8461027f57604051630a767c7560e01b8152602060048201526008602482015267185b98da1bdc925960c21b604482015260640161023d565b836102bb57604051630a767c7560e01b815260206004820152600b60248201526a0e6eac4d4cac6e890c2e6d60ab1b604482015260640161023d565b826102f857604051630a767c7560e01b815260206004820152600c60248201526b0caecd2c8cadcc6ca90c2e6d60a31b604482015260640161023d565b8161033557604051630a767c7560e01b815260206004820152600c60248201526b0dacae8c2c8c2e8c290c2e6d60a31b604482015260640161023d565b5f8581526001602052604090205460ff161561036757604051630e9f1d2f60e01b81526004810186905260240161023d565b506040805160a0810182528481526020808201858152828401858152336060850181815267ffffffffffffffff42818116608089019081525f8e81528089528a812099518a5596516001808b0191909155955160028a01559251600390980180549351909216600160a01b026001600160e01b03199093166001600160a01b0398909816979097179190911790559281905290849020805460ff19169091179055915190918491869188917f0941631e39c0894c129c294384ebef5348028935c721ae4dda3478bca4dac1c7916104669188919088909283526001600160a01b0391909116602083015267ffffffffffffffff16604082015260600190565b60405180910390a4949350505050565b5f60208284031215610486575f5ffd5b5035919050565b5f5f5f5f608085870312156104a0575f5ffd5b505082359460208401359450604084013593606001359250905056fea2646970667358221220b92f2e9cc5abf128fb766bb0aa6d973c8228163c2e4bfd8fd75b12f62b84cf7164736f6c63430008240033",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.36+commit.8a079791"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "initialOwner",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "anchorId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "AnchorAlreadyExists",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "caller",
+              "type": "address"
+            }
+          ],
+          "name": "NotOwner",
+          "type": "error"
+        },
+        {
+          "inputs": [],
+          "name": "ZeroAddress",
+          "type": "error"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "string",
+              "name": "field",
+              "type": "string"
+            }
+          ],
+          "name": "ZeroBytes32",
+          "type": "error"
+        },
+        {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "anchorId",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "subjectHash",
+              "type": "bytes32"
+            },
+            {
+              "indexed": true,
+              "internalType": "bytes32",
+              "name": "evidenceHash",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "bytes32",
+              "name": "metadataHash",
+              "type": "bytes32"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "issuer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint64",
+              "name": "anchoredAt",
+              "type": "uint64"
+            }
+          ],
+          "name": "AnchorWritten",
+          "type": "event"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "anchorId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "subjectHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "evidenceHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "metadataHash",
+              "type": "bytes32"
+            }
+          ],
+          "name": "anchor",
+          "outputs": [
+            {
+              "internalType": "uint64",
+              "name": "anchoredAt",
+              "type": "uint64"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "anchorId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "getAnchor",
+          "outputs": [
+            {
+              "components": [
+                {
+                  "internalType": "bytes32",
+                  "name": "subjectHash",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "evidenceHash",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "metadataHash",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "address",
+                  "name": "issuer",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "anchoredAt",
+                  "type": "uint64"
+                }
+              ],
+              "internalType": "struct ForgeAnchor.AnchorRecord",
+              "name": "",
+              "type": "tuple"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "anchorId",
+              "type": "bytes32"
+            }
+          ],
+          "name": "hasAnchor",
+          "outputs": [
+            {
+              "internalType": "bool",
+              "name": "",
+              "type": "bool"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "inputs": [],
+          "name": "owner",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function"
+        }
+      ],
+      "devdoc": {
+        "details": "Stores only bytes32 commitments. Human-readable certificate metadata remains off-chain.",
+        "kind": "dev",
+        "methods": {},
+        "title": "ForgeAnchor",
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "notice": "Minimal append-only provenance anchor for AgentForge birth certificates and service evidence.",
+        "version": 1
+      }
+    },
+    "settings": {
+      "compilationTarget": {
+        "contracts/ForgeAnchor.sol": "ForgeAnchor"
+      },
+      "evmVersion": "osaka",
+      "libraries": {},
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "remappings": []
+    },
+    "sources": {
+      "contracts/ForgeAnchor.sol": {
+        "keccak256": "0xcd8ec20b3341fe19db3e4fb8467007300809240e454cea5a63e8cfcef9147f62",
+        "license": "MIT",
+        "urls": [
+          "bzz-raw://548a403aa8359332c6d8ff4ea072e80b17dd581290bb779a78d55d4b660fedc0",
+          "dweb:/ipfs/QmX9WZZq8chbvAUw87Cg43XCJqSfgR3Nv8ATVQdrU1FVK2"
+        ]
+      }
+    },
+    "version": 1
+  }
+}
