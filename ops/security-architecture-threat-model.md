@@ -14,7 +14,7 @@
 - Public HTTP boundary: `/svc/*`, `/svc/*/preflight`, `/svc/*/recovery`, `/mcp/*`, `/health`, `/ready`.
 - Payment boundary: OKX x402 verification and settlement.
 - Model boundary: Anthropic output is untrusted until schema and quality checks pass.
-- Persistence boundary: Railway volume files for ledger, quotes, archives, and evidence.
+- Persistence boundary: Postgres ledger database when `AGENTFORGE_STORAGE_MODE=postgres`; otherwise Railway volume files for JSONL ledger, quotes, archives, and evidence.
 - Tenant boundary: tenant route, body schema, catalog status, and proof data.
 - Internal boundary: bearer-protected `/internal/*` Forge Gate and draft endpoints.
 
@@ -34,12 +34,14 @@
 - x402 settlement occurs only after deliverable generation succeeds.
 - New invariant: after settlement succeeds, bookkeeping failure returns a delivered response with warnings instead of a buyer 400.
 - Ledger integrity checks reject delivered duplicate payment refs and unbalanced transactions.
-- Atomic journal file locking serializes appends across runtime processes that share the same persistent volume.
-- Production readiness requires an explicit `AGENTFORGE_STORAGE_MODE` declaration so single-instance JSONL and shared-volume JSONL assumptions are visible before traffic.
+- Postgres ledger mode creates durable uniqueness constraints on journal keys, service call IDs, ledger transaction IDs, and payment references.
+- Postgres ledger appends run inside a transaction with an advisory lock so competing runtime processes serialize integrity checks and inserts.
+- Atomic journal file locking serializes appends across runtime processes that share the same persistent volume when JSONL mode is selected.
+- Production readiness requires an explicit `AGENTFORGE_STORAGE_MODE` declaration so Postgres, single-instance JSONL, or shared-volume JSONL assumptions are visible before traffic.
 - Production readiness requires an explicit `AGENTFORGE_SETTLEMENT_ADDRESS`; local/test fallback is not accepted in production.
 - Delivery recovery requires paid reference plus original body hash/body before exposing archived deliverables.
 - Rate limiter does not trust raw spoofed XFF by default, prunes buckets, and caps memory.
-- Production boot/readiness checks fail missing critical secrets and unwritable persistence paths.
+- Production boot/readiness checks fail missing critical secrets, missing `DATABASE_URL` in Postgres mode, unreachable ledger database, or unwritable JSONL persistence paths.
 - Security headers applied to JSON and x402 responses.
 - Internal routes require bearer tokens and Forge Gate routes reject answer-key metadata.
 
@@ -57,7 +59,7 @@
 
 ## Residual Risks
 
-- File-backed ledger is not a distributed transactional database across separate volumes or ephemeral containers.
+- File-backed JSONL ledger mode is not a distributed transactional database across separate volumes or ephemeral containers; use Postgres mode for multi-replica runtime writes.
 - Recovery archive durability depends on the mounted Railway volume.
 - Listener-level tests now assert unpaid 402 and mocked paid settlement through a bound HTTP server; a real paid production smoke still requires explicit human approval because it spends funds.
 - `outputSchema` is a buyer-agent convention, not an OKX protocol guarantee.

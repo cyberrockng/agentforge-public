@@ -37,7 +37,11 @@ After deploying the runtime, run the no-payment contract gate:
 npm run verify:runtime -- https://agentforge-runtime-production-9a4d.up.railway.app
 ```
 
-Production must declare storage topology with `AGENTFORGE_STORAGE_MODE`. Use `single-instance-jsonl` only with `AGENTFORGE_RUNTIME_REPLICA_COUNT=1`; use `shared-volume-jsonl` only when every runtime process writes the same mounted persistent volume.
+Production must declare storage topology with `AGENTFORGE_STORAGE_MODE`. Use
+`postgres` with `DATABASE_URL` for the durable multi-replica ledger. Use
+`single-instance-jsonl` only with `AGENTFORGE_RUNTIME_REPLICA_COUNT=1`; use
+`shared-volume-jsonl` only when every runtime process writes the same mounted
+persistent volume.
 
 Production must also set `AGENTFORGE_SETTLEMENT_ADDRESS` to the X Layer EVM address
 that receives x402 settlement. See `.env.example` for the full runtime env surface.

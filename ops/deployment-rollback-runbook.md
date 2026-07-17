@@ -13,11 +13,11 @@
 - Confirm production env has:
   - `ANTHROPIC_API_KEY`
   - `OKX_X402_API_KEY` or `OKX_API_KEY`
-	  - `OKX_X402_SECRET_KEY` or `OKX_SECRET_KEY`
-	  - `OKX_X402_PASSPHRASE` or `OKX_PASSPHRASE`
-	  - `AGENTFORGE_SETTLEMENT_ADDRESS` set to the X Layer EVM settlement wallet
-	  - `AGENTFORGE_STORAGE_MODE=single-instance-jsonl` with `AGENTFORGE_RUNTIME_REPLICA_COUNT=1`, or `AGENTFORGE_STORAGE_MODE=shared-volume-jsonl` when every runtime process writes the same mounted persistent volume
-  - writable `AGENTFORGE_LEDGER_PATH` directory
+  - `OKX_X402_SECRET_KEY` or `OKX_SECRET_KEY`
+  - `OKX_X402_PASSPHRASE` or `OKX_PASSPHRASE`
+  - `AGENTFORGE_SETTLEMENT_ADDRESS` set to the X Layer EVM settlement wallet
+  - `AGENTFORGE_STORAGE_MODE=postgres` with `DATABASE_URL`, or `AGENTFORGE_STORAGE_MODE=single-instance-jsonl` with `AGENTFORGE_RUNTIME_REPLICA_COUNT=1`, or `AGENTFORGE_STORAGE_MODE=shared-volume-jsonl` when every runtime process writes the same mounted persistent volume
+  - writable `AGENTFORGE_LEDGER_PATH` directory only when a JSONL storage mode is selected
   - writable `AGENTFORGE_DELIVERY_ARCHIVE_DIR`
   - writable `AGENTFORGE_PAYMENT_QUOTE_DIR`
 - Set `AGENTFORGE_TRUSTED_CLIENT_IP_HEADER` to the sanitized platform header if needed.
@@ -26,6 +26,7 @@
 
 - `GET /health` returns 200 and current hardening status.
 - `GET /ready` returns 200 with all checks green.
+- In Postgres mode, `/ready` includes `ledger_database: ok`; in JSONL mode, it includes `ledger_journal_dir: ok`.
 - `GET /svc/forge` returns 402 with x402 `accepts` and top-level `outputSchema`.
 - `GET /svc/forge/info` returns service info without payment.
 - `POST /svc/forge/preflight` with a valid body returns `bodyReadyForPayment: true` and a quote-bound paid endpoint.

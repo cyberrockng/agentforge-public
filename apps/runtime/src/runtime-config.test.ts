@@ -88,6 +88,38 @@ describe("runtime production config", () => {
     ).not.toThrow();
   });
 
+  it("accepts Postgres storage mode for production and multi-replica writes", () => {
+    expect(() =>
+      assertProductionBootEnv({
+        NODE_ENV: "production",
+        MODEL_CLIENT: "anthropic",
+        ANTHROPIC_API_KEY: "anthropic-key",
+        OKX_API_KEY: "okx-key",
+        OKX_SECRET_KEY: "okx-secret",
+        OKX_PASSPHRASE: "okx-passphrase",
+        AGENTFORGE_SETTLEMENT_ADDRESS: settlementAddress,
+        AGENTFORGE_STORAGE_MODE: "postgres",
+        AGENTFORGE_RUNTIME_REPLICA_COUNT: "3",
+        DATABASE_URL: "postgres://agentforge:secret@localhost:5432/agentforge"
+      })
+    ).not.toThrow();
+  });
+
+  it("rejects Postgres storage mode without a database connection string", () => {
+    expect(() =>
+      assertProductionBootEnv({
+        NODE_ENV: "production",
+        MODEL_CLIENT: "anthropic",
+        ANTHROPIC_API_KEY: "anthropic-key",
+        OKX_API_KEY: "okx-key",
+        OKX_SECRET_KEY: "okx-secret",
+        OKX_PASSPHRASE: "okx-passphrase",
+        AGENTFORGE_SETTLEMENT_ADDRESS: settlementAddress,
+        AGENTFORGE_STORAGE_MODE: "postgres"
+      })
+    ).toThrow("DATABASE_URL");
+  });
+
   it("rejects an invalid production settlement address", () => {
     expect(() =>
       assertProductionBootEnv({

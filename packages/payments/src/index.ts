@@ -5,9 +5,27 @@ export {
   appendLedgerJournal,
   assertLedgerJournalIntegrity,
   checkLedgerJournal,
+  ledgerJournalRecordKey,
   readLedgerJournal
 } from "./journal.js";
 export type { LedgerJournalCheck, LedgerJournalRecord } from "./journal.js";
+export {
+  appendPostgresLedgerJournal,
+  checkPostgresLedgerReady,
+  createPostgresLedgerStore,
+  ensurePostgresLedgerSchema,
+  postgresLedgerRecordFields,
+  postgresLedgerSchemaStatements,
+  readPostgresLedgerJournal
+} from "./postgres-journal.js";
+export type {
+  CreatePostgresLedgerStoreOptions,
+  PostgresLedgerPool,
+  PostgresLedgerQueryable,
+  PostgresLedgerSslMode,
+  PostgresLedgerStore,
+  PostgresLedgerTransactionClient
+} from "./postgres-journal.js";
 
 export type Currency = "USDT";
 export type LedgerDirection = "debit" | "credit";

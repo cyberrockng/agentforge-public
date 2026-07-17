@@ -12,7 +12,7 @@ const okxCredentialGroups = [
   ["OKX_X402_PASSPHRASE", "OKX_PASSPHRASE"]
 ] as const;
 
-const supportedStorageModes = ["single-instance-jsonl", "shared-volume-jsonl"] as const;
+const supportedStorageModes = ["single-instance-jsonl", "shared-volume-jsonl", "postgres"] as const;
 const evmAddressPattern = /^0x[a-fA-F0-9]{40}$/;
 const developmentSettlementAddress = "0xfc9b58e81bce27c2f46558d501228d935f93e802";
 
@@ -61,7 +61,12 @@ export function runtimeEnvReadinessChecks(env: RuntimeEnv = process.env): Readin
       name: "storage_mode",
       ok: env.NODE_ENV !== "production" || isSupportedStorageMode(storageMode),
       message:
-        "Production must set AGENTFORGE_STORAGE_MODE to single-instance-jsonl or shared-volume-jsonl so ledger durability assumptions are explicit"
+        "Production must set AGENTFORGE_STORAGE_MODE to postgres, single-instance-jsonl, or shared-volume-jsonl so ledger durability assumptions are explicit"
+    },
+    {
+      name: "database_url",
+      ok: env.NODE_ENV !== "production" || storageMode !== "postgres" || Boolean(env.DATABASE_URL),
+      message: "AGENTFORGE_STORAGE_MODE=postgres requires DATABASE_URL"
     },
     {
       name: "settlement_address",
@@ -79,7 +84,7 @@ export function runtimeEnvReadinessChecks(env: RuntimeEnv = process.env): Readin
         storageMode !== "single-instance-jsonl" ||
         replicaCount === 1,
       message:
-        "single-instance-jsonl requires AGENTFORGE_RUNTIME_REPLICA_COUNT=1; use shared-volume-jsonl only when every runtime process writes the same persistent volume"
+        "single-instance-jsonl requires AGENTFORGE_RUNTIME_REPLICA_COUNT=1; use postgres for multi-replica runtime writes"
     }
   ];
 }

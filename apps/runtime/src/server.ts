@@ -23,9 +23,17 @@ import {
 } from "@agentforge/core";
 import {
   appendLedgerJournal,
+  createPostgresLedgerStore,
+  ledgerJournalRecordKey,
   readLedgerJournal
 } from "@agentforge/payments";
-import type { LedgerJournalRecord, ReferralAttribution, ServiceCall } from "@agentforge/payments";
+import type {
+  LedgerJournalRecord,
+  PostgresLedgerSslMode,
+  PostgresLedgerStore,
+  ReferralAttribution,
+  ServiceCall
+} from "@agentforge/payments";
 import { buildBusinessBuilderDeliverable } from "./business-builder.js";
 import {
   buildRecoveryInfo,
@@ -90,6 +98,7 @@ const forgeGateQaToken = process.env.AGENTFORGE_QA_TOKEN ?? internalToken;
 const maxJsonBytes = 16_384;
 const recoveryMaxJsonBytes = 32_768;
 const settlementAddress = resolveSettlementAddress();
+const ledgerStorageMode = process.env.AGENTFORGE_STORAGE_MODE ?? "single-instance-jsonl";
 const ledgerJournalPath = process.env.AGENTFORGE_LEDGER_PATH ?? "/data/agentforge/service-ledger.jsonl";
 const ledgerSeedPath = join(process.cwd(), "ops/evidence/2026-07-13-t32-service-ledger.jsonl");
 const deliveryArchiveDir =
@@ -109,6 +118,7 @@ const serviceRateLimiter = new InMemoryRateLimiter({
   maxBuckets: serviceRateLimitMaxBuckets
 });
 let x402ServerPromise: Promise<x402HTTPResourceServer> | null = null;
+let postgresLedgerStore: PostgresLedgerStore | null = null;
 
 const serviceRateLimiterPruneInterval = setInterval(() => {
   serviceRateLimiter.prune();
@@ -602,7 +612,7 @@ async function buildReadinessBody() {
   }
 
   dependencyChecks.push(
-    await checkWritableDirectory("ledger_journal_dir", dirname(ledgerJournalPath)),
+    await checkLedgerStoreReady(),
     await checkWritableDirectory("delivery_archive_dir", deliveryArchiveDir),
     await checkWritableDirectory("payment_quote_dir", paymentQuoteDir)
   );
@@ -615,6 +625,27 @@ async function buildReadinessBody() {
     checkedAt: new Date().toISOString(),
     checks
   };
+}
+
+async function checkLedgerStoreReady(): Promise<ReadinessCheck> {
+  if (ledgerStorageMode === "postgres") {
+    try {
+      await getPostgresLedgerStore().checkReady();
+      return {
+        name: "ledger_database",
+        ok: true,
+        message: "Postgres ledger schema is reachable"
+      };
+    } catch (error) {
+      return {
+        name: "ledger_database",
+        ok: false,
+        message: error instanceof Error ? error.message : "Postgres ledger could not initialize"
+      };
+    }
+  }
+
+  return checkWritableDirectory("ledger_journal_dir", dirname(ledgerJournalPath));
 }
 
 async function checkX402ServerReady(): Promise<ReadinessCheck> {
@@ -1927,29 +1958,87 @@ function stringHeaders(headers: Record<string, unknown>) {
 }
 
 async function persistLedgerRecords(records: LedgerJournalRecord[]) {
+  if (ledgerStorageMode === "postgres") {
+    await getPostgresLedgerStore().append(records);
+    return;
+  }
+
   await appendLedgerJournal(ledgerJournalPath, records);
 }
 
 async function readLedgerRecordsForSummary() {
-  const primaryRecords = await readLedgerJournal(ledgerJournalPath);
+  const primaryRecords =
+    ledgerStorageMode === "postgres"
+      ? await getPostgresLedgerStore().read()
+      : await readLedgerJournal(ledgerJournalPath);
   const seedRecords = await readLedgerJournal(ledgerSeedPath);
 
   if (primaryRecords.length === 0) {
     return seedRecords;
   }
 
-  const primaryKeys = new Set(primaryRecords.map(ledgerRecordKey));
-  const missingSeedRecords = seedRecords.filter((record) => !primaryKeys.has(ledgerRecordKey(record)));
+  const primaryKeys = new Set(primaryRecords.map(ledgerJournalRecordKey));
+  const missingSeedRecords = seedRecords.filter((record) => !primaryKeys.has(ledgerJournalRecordKey(record)));
 
   return [...missingSeedRecords, ...primaryRecords];
 }
 
-function ledgerRecordKey(record: LedgerJournalRecord) {
-  if (record.type === "service_call") {
-    return `${record.type}:${record.serviceCall.id}`;
+function getPostgresLedgerStore() {
+  if (postgresLedgerStore) {
+    return postgresLedgerStore;
   }
 
-  return `${record.type}:${record.ledgerTransaction.id}`;
+  const databaseUrl = process.env.DATABASE_URL;
+
+  if (!databaseUrl) {
+    throw new Error("DATABASE_URL is required when AGENTFORGE_STORAGE_MODE=postgres");
+  }
+
+  const sslMode = postgresLedgerSslMode(process.env.AGENTFORGE_DATABASE_SSL_MODE ?? process.env.PGSSLMODE);
+  const storeOptions = {
+    connectionString: databaseUrl,
+    maxConnections: positiveIntegerOrDefault(process.env.AGENTFORGE_DATABASE_MAX_CONNECTIONS, 5)
+  };
+
+  postgresLedgerStore = createPostgresLedgerStore(
+    sslMode
+      ? {
+          ...storeOptions,
+          sslMode
+        }
+      : storeOptions
+  );
+
+  return postgresLedgerStore;
+}
+
+function postgresLedgerSslMode(value: string | undefined): PostgresLedgerSslMode | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  if (
+    value === "disable" ||
+    value === "allow" ||
+    value === "prefer" ||
+    value === "require" ||
+    value === "verify-ca" ||
+    value === "verify-full" ||
+    value === "no-verify"
+  ) {
+    return value;
+  }
+
+  throw new Error("AGENTFORGE_DATABASE_SSL_MODE must be a supported PGSSLMODE value");
+}
+
+function positiveIntegerOrDefault(value: string | undefined, fallback: number) {
+  if (!value) {
+    return fallback;
+  }
+
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
 }
 
 async function persistForgeGateReport(tenantSlug: string, report: unknown) {

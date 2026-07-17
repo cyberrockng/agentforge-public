@@ -79,6 +79,14 @@ export function filterAppendIntegrityRecords(records: LedgerJournalRecord[]) {
   );
 }
 
+export function ledgerJournalRecordKey(record: LedgerJournalRecord) {
+  if (record.type === "service_call") {
+    return `${record.type}:${record.serviceCall.id}`;
+  }
+
+  return `${record.type}:${record.ledgerTransaction.id}`;
+}
+
 export function checkLedgerJournal(records: LedgerJournalRecord[]): LedgerJournalCheck {
   const errors: string[] = [];
   const serviceCallIds = new Set<string>();

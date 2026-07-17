@@ -75,6 +75,10 @@ Successful paid responses include:
 
 If settlement succeeds but ledger/archive persistence fails, AgentForge still returns the deliverable and receipt. Save the response and follow recovery/manual make-good instructions before completing or reviewing the task.
 
+Ledger persistence uses the configured runtime storage mode. Production should use
+`AGENTFORGE_STORAGE_MODE=postgres` with `DATABASE_URL`; JSONL modes remain
+available only for constrained single-instance or same-volume deployments.
+
 ## Recovery
 
 Use `POST /svc/<slug>/recovery` with either `paymentTransaction` or `serviceCallId`, plus `originalBody` or `requestBodySha256`.
