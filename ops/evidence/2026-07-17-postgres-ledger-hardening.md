@@ -1,6 +1,7 @@
 # Postgres Ledger Hardening - 2026-07-17
 
-Status: DONE for code, tests, docs, release verification, and runtime deployment.
+Status: DONE for code, tests, docs, release verification, runtime deployment, and
+production Postgres cutover.
 
 ## Scope
 
@@ -38,7 +39,7 @@ Result:
 
 ## Runtime Deployment
 
-Deployed runtime support without changing production storage mode:
+Deployed runtime support before the storage cutover:
 
 - Railway deployment ID: `a3167be9-a17a-4908-985d-a47c4937b906`
 - Status: `SUCCESS`
@@ -59,12 +60,32 @@ Result:
 - advertised output schema example is accepted by preflight.
 - malformed Forge body is rejected before payment.
 
-Active production readiness still reports `ledger_journal_dir: ok`, because the live
-runtime remains on the existing volume-backed JSONL ledger until a managed
-Postgres `DATABASE_URL` is provisioned as a protected secret.
+## Production Postgres Cutover
+
+Provisioned managed Postgres on Railway without printing the database URL:
+
+- Railway Postgres service ID: `5a4424f1-352e-499c-bf28-20d512e97076`
+- Railway Postgres service name: `Postgres`
+- Postgres deployment ID: `eba063a5-9ed7-4e14-a84f-97236d8510bd`
+- Runtime `DATABASE_URL` set as a Railway service-variable reference to
+  `Postgres.DATABASE_URL`; the raw connection string was not committed or logged.
+- Runtime `AGENTFORGE_STORAGE_MODE=postgres`.
+- Runtime `AGENTFORGE_DATABASE_SSL_MODE=require`.
+
+Redeployed runtime with the Postgres storage variables:
+
+- Railway runtime redeployment ID: `74bc8989-b408-4703-a021-e10a97159939`
+- Status: `SUCCESS`
+- Image digest: `sha256:3e43d9a08917c89969800ec6a8b274b8ddf9bd82d3283c47e9ad8bcb03c21a79`
+
+Post-cutover verification:
+
+- `/ready` returned 200 and includes `ledger_database: ok`.
+- `npm run verify:runtime -- https://agentforge-runtime-production-9a4d.up.railway.app`
+  passed after the cutover.
+- `/ledger/summary` returned 200 after the cutover.
 
 ## Production Note
 
-Switching the live runtime from JSONL to Postgres must be done only after a
-managed Postgres database is provisioned and `DATABASE_URL` is set as a
-protected platform secret. Do not commit or print the database URL.
+The existing volume-backed JSONL ledger remains available as a rollback fallback,
+but active production ledger writes now target the managed Postgres ledger.
