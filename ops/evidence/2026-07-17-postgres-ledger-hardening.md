@@ -89,3 +89,6 @@ Post-cutover verification:
 
 The existing volume-backed JSONL ledger remains available as a rollback fallback,
 but active production ledger writes now target the managed Postgres ledger.
+
+Historical JSONL backfill, final reconciliation, private export, and alert-probe
+evidence are recorded in `ops/evidence/2026-07-17-postgres-ledger-backfill.md`.

@@ -34,6 +34,9 @@
 - Run the no-payment contract gate:
   - `npm run verify:runtime -- https://agentforge-runtime-production-9a4d.up.railway.app`
 - Confirm the automated listener-level 200/402 contract test passed in CI (`server-listener.test.ts`).
+- For production Postgres ledger mode, run:
+  - `npm run alert:runtime -- https://agentforge-runtime-production-9a4d.up.railway.app`
+- For ledger migration/export/backup procedures, see `ops/postgres-ledger-operations.md`.
 
 Do not run paid production proofs or spend funds without explicit human approval.
 
@@ -65,10 +68,12 @@ Rollback target:
 ## Operational Alerts To Add
 
 - `/ready` non-200.
+- `/ready` missing `ledger_database: ok` while `AGENTFORGE_STORAGE_MODE=postgres`.
 - ledger append failure after settlement.
 - delivery archive failure after settlement.
 - Anthropic retry exhaustion.
 - x402 settlement failure rate spike.
 - rate-limit bucket cap evictions above normal baseline.
 - ledger integrity check failure.
+- Postgres connection, timeout, or uniqueness errors.
 - `AGENTFORGE_SETTLEMENT_ADDRESS` mismatch between runtime env and expected settlement wallet.

@@ -11,6 +11,7 @@
     "test": "vitest run",
     "pretypecheck": "npm run build --workspace @agentforge/core && npm run build --workspace @agentforge/payments",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "alert:runtime": "node scripts/check-runtime-alerts.mjs",
     "verify:runtime": "node scripts/verify-runtime-contract.mjs"
   },
   "dependencies": {

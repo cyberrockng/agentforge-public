@@ -9,10 +9,12 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
+    "alert:runtime": "npm run alert:runtime --workspace @agentforge/runtime --",
     "dev:web": "npm run dev --workspace @agentforge/web",
     "dev:runtime": "npm run dev --workspace @agentforge/runtime",
     "health:runtime": "node apps/runtime/dist/server.js",
     "ledger:check": "npm run ledger:check --workspace @agentforge/payments --",
+    "ledger:postgres": "npm run ledger:postgres --workspace @agentforge/payments --",
     "lint": "eslint .",
     "pretest": "npm run build --workspace @agentforge/core",
     "test": "npm run test --workspaces --if-present",

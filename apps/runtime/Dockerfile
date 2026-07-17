@@ -26,6 +26,7 @@ COPY --from=build /app/packages/core/dist ./packages/core/dist
 COPY packages/core/package.json ./packages/core/package.json
 COPY --from=build /app/packages/payments/dist ./packages/payments/dist
 COPY packages/payments/package.json ./packages/payments/package.json
+COPY packages/payments/scripts ./packages/payments/scripts
 COPY --from=build /app/apps/runtime/dist ./apps/runtime/dist
 COPY apps/runtime/package.json ./apps/runtime/package.json
 COPY ops/evidence/2026-07-13-t32-service-ledger.jsonl ./ops/evidence/2026-07-13-t32-service-ledger.jsonl

@@ -21,6 +21,7 @@ snapshot. Publicly shareable hardening evidence lives under `ops/evidence/`,
 - Buyer x402/API contract: `ops/x402-buyer-api.md`
 - Security architecture and threat model: `ops/security-architecture-threat-model.md`
 - Deployment, rollback, and operations runbook: `ops/deployment-rollback-runbook.md`
+- Postgres ledger migration, export, backup, and alerts: `ops/postgres-ledger-operations.md`
 - Customer recovery and refund SLA: `ops/customer-support-sla.md`
 - Latest hardening execution plan: `ops/plans/PRODUCTION_HARDENING_EXECUTION_2026-07-16.md`
 

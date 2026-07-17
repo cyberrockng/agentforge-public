@@ -9,6 +9,8 @@
     "build": "tsc -p tsconfig.json",
     "preledger:check": "npm run build",
     "ledger:check": "node scripts/ledger-check.mjs",
+    "preledger:postgres": "npm run build",
+    "ledger:postgres": "node scripts/ledger-postgres.mjs",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
