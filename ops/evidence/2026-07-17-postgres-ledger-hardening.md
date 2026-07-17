@@ -1,6 +1,6 @@
 # Postgres Ledger Hardening - 2026-07-17
 
-Status: DONE for code, tests, docs, and release verification.
+Status: DONE for code, tests, docs, release verification, and runtime deployment.
 
 ## Scope
 
@@ -36,6 +36,35 @@ Result:
 - `npm audit --omit=dev` reported 0 vulnerabilities.
 - `git diff --check` passed.
 
+## Runtime Deployment
+
+Deployed runtime support without changing production storage mode:
+
+- Railway deployment ID: `a3167be9-a17a-4908-985d-a47c4937b906`
+- Status: `SUCCESS`
+- Image digest: `sha256:3e43d9a08917c89969800ec6a8b274b8ddf9bd82d3283c47e9ad8bcb03c21a79`
+
+Production verification:
+
+```bash
+npm run verify:runtime -- https://agentforge-runtime-production-9a4d.up.railway.app
+```
+
+Result:
+
+- `/health` passed with security headers.
+- `/ready` passed.
+- `/svc/forge/info` passed.
+- unpaid `/svc/forge` 402 challenge includes truthful `outputSchema`.
+- advertised output schema example is accepted by preflight.
+- malformed Forge body is rejected before payment.
+
+Active production readiness still reports `ledger_journal_dir: ok`, because the live
+runtime remains on the existing volume-backed JSONL ledger until a managed
+Postgres `DATABASE_URL` is provisioned as a protected secret.
+
 ## Production Note
 
-The code path is ready to deploy. Switching the live runtime from JSONL to Postgres must be done only after a managed Postgres database is provisioned and `DATABASE_URL` is set as a protected platform secret. Do not commit or print the database URL.
+Switching the live runtime from JSONL to Postgres must be done only after a
+managed Postgres database is provisioned and `DATABASE_URL` is set as a
+protected platform secret. Do not commit or print the database URL.
