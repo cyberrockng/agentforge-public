@@ -28,7 +28,8 @@ export type RuntimeDashboardSummary = {
 export function buildRuntimeDashboardSummary(
   records: LedgerJournalRecord[],
   tenants: TenantRuntimeConfig[],
-  generatedAt = new Date().toISOString()
+  generatedAt = new Date().toISOString(),
+  source = "Runtime ledger journal"
 ): RuntimeDashboardSummary {
   const durableRecords = filterDurableEconomicRecords(records);
   const check = checkLedgerJournal(durableRecords);
@@ -69,14 +70,14 @@ export function buildRuntimeDashboardSummary(
 
   return {
     generatedAt,
-    source: "Runtime JSONL ledger journal",
+    source,
     paidCalls: deliveredCalls.length,
     settledAtomic: sumAtomic(deliveredCalls.map((call) => call.amountAtomic)),
     forgeRevenueAtomic: sumNetEntries(ledgerTransactions, "revenue:forge:"),
     founderPayableAtomic: sumCreditEntries(ledgerTransactions, "liability:founder:"),
     referralPayableAtomic: sumCreditEntries(ledgerTransactions, "liability:referral:"),
     rows,
-    latestCall: deliveredCalls.at(-1) ?? null
+    latestCall: latestDeliveredCall(deliveredCalls)
   };
 }
 
@@ -131,4 +132,17 @@ function sumNetEntries(transactions: LedgerTransaction[], accountPrefix: string)
 
 function sumAtomic(values: string[]) {
   return values.reduce((total, value) => total + BigInt(value), 0n).toString();
+}
+
+function latestDeliveredCall(calls: ServiceCall[]) {
+  return calls.reduce<ServiceCall | null>((latest, call) => {
+    if (!latest) {
+      return call;
+    }
+
+    const latestTime = Date.parse(latest.deliveredAt ?? latest.quotedAt ?? "");
+    const callTime = Date.parse(call.deliveredAt ?? call.quotedAt ?? "");
+
+    return Number.isFinite(callTime) && (!Number.isFinite(latestTime) || callTime >= latestTime) ? call : latest;
+  }, null);
 }

@@ -262,7 +262,7 @@ const runtimeRequestHandler = async (request: IncomingMessage, response: ServerR
   if (request.method === "GET" && getPath(request) === "/ledger/summary") {
     try {
       const records = await readLedgerRecordsForSummary();
-      writeJson(response, 200, buildRuntimeDashboardSummary(records, listTenants()));
+      writeJson(response, 200, buildRuntimeDashboardSummary(records, listTenants(), new Date().toISOString(), ledgerSummarySource()));
     } catch (error) {
       writeJson(response, 503, {
         error: "ledger_summary_unavailable",
@@ -2010,6 +2010,18 @@ function getPostgresLedgerStore() {
   );
 
   return postgresLedgerStore;
+}
+
+function ledgerSummarySource() {
+  if (ledgerStorageMode === "postgres") {
+    return "Runtime Postgres ledger journal";
+  }
+
+  if (ledgerStorageMode === "shared-volume-jsonl") {
+    return "Runtime shared-volume JSONL ledger journal";
+  }
+
+  return "Runtime single-instance JSONL ledger journal";
 }
 
 function postgresLedgerSslMode(value: string | undefined): PostgresLedgerSslMode | undefined {

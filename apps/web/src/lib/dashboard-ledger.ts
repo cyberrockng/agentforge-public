@@ -201,7 +201,7 @@ function buildDashboardSummaryFromJournal(
     founderPayableAtomic: sumCreditEntries(ledgerTransactions, "liability:founder:"),
     referralPayableAtomic: sumCreditEntries(ledgerTransactions, "liability:referral:"),
     rows,
-    latestCall: deliveredCalls.at(-1) ?? null
+    latestCall: latestDeliveredCall(deliveredCalls)
   };
 }
 
@@ -287,4 +287,17 @@ function sumNetEntries(transactions: DashboardLedgerTransaction[], accountPrefix
 
 function sumAtomic(values: string[]) {
   return values.reduce((total, value) => total + BigInt(value), 0n).toString();
+}
+
+function latestDeliveredCall(calls: DashboardServiceCall[]) {
+  return calls.reduce<DashboardServiceCall | null>((latest, call) => {
+    if (!latest) {
+      return call;
+    }
+
+    const latestTime = Date.parse(latest.deliveredAt ?? "");
+    const callTime = Date.parse(call.deliveredAt ?? "");
+
+    return Number.isFinite(callTime) && (!Number.isFinite(latestTime) || callTime >= latestTime) ? call : latest;
+  }, null);
 }

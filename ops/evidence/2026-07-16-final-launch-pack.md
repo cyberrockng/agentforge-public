@@ -17,6 +17,7 @@ security disclosure was performed while preparing this pack.
 
 ## Public Links
 
+- Clean public GitHub source: `https://github.com/cyberrockng/agentforge-public`
 - Judge bundle: `https://web-one-peach-2vp0hv3dr1.vercel.app/judges`
 - AgentForge service page: `https://web-one-peach-2vp0hv3dr1.vercel.app/a/forge`
 - Storefront: `https://web-one-peach-2vp0hv3dr1.vercel.app/forge`
@@ -37,6 +38,17 @@ security disclosure was performed while preparing this pack.
     and customer-confidentiality caveat.
   - `/proof-log` rendered the Jul 16 production-hardening/final-packaging entry.
   - `/launch-engine` rendered the AgentForge draft pointing to `/judges`.
+
+Latest public-facing audit deployment on 2026-07-17:
+
+- Vercel production deployment: `dpl_Cxi9gAL8oRyGqdZ8d1LmyjYaR13n`
+- Deployment URL: `https://web-qcosmp1yk-cyberrockng-s-projects.vercel.app`
+- Public alias: `https://web-one-peach-2vp0hv3dr1.vercel.app`
+- Verified after deploy:
+  - `/judges` returned HTTP 200 and rendered the `11` paid-call and `5.050000 USDT` ledger claims.
+  - `/proof-log` returned HTTP 200 and rendered the Postgres ledger cutover/backfill entry.
+  - `/dashboard` returned HTTP 200 and rendered `Runtime Postgres ledger journal`.
+  - `/forge`, `/a/forge`, `/hire`, and `/launch-engine` returned HTTP 200.
 
 ## Live Runtime Snapshot
 
@@ -63,6 +75,8 @@ Live ledger snapshot from `GET /ledger/summary` at packaging time:
 - founder payable: `0.320000 USDT`
 - latest delivered call: `sc_forge_79119a0dc8c9`
 - latest payment tx: `0x79119a0dc8c9df644ab5c24a4dd5dad3381aa2c6138dbc30fc8e1dfd4b0d1e3f`
+- ledger source after Jul 17 cutover: `Runtime Postgres ledger journal`
+- production readiness after Jul 17 cutover: `ledger_database: ok`
 
 These numbers are a point-in-time ledger snapshot, not a promise about future traffic.
 
@@ -89,6 +103,7 @@ Use these only after the live demo is filmed:
 - Short description: `AgentForge turns human expertise into live, paid OKX.AI agent services with x402 payments, ledger-backed receipts, verifier pages, recovery hardening, and honest launch-ladder evidence.`
 - Public judge/evidence URL: `https://web-one-peach-2vp0hv3dr1.vercel.app/judges`
 - Public service URL: `https://web-one-peach-2vp0hv3dr1.vercel.app/a/forge`
+- Public GitHub URL: `https://github.com/cyberrockng/agentforge-public`
 - Runtime endpoint: `https://agentforge-runtime-production-9a4d.up.railway.app/svc/forge`
 - X post URL: add after manual publishing.
 - Demo video URL: add after manual filming/upload.

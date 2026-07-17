@@ -229,7 +229,7 @@ export const proofLogEntries = [
       "Live runtime verifier: /health, /ready, /svc/forge/info, unpaid 402, preflight, malformed-body rejection",
       "Live ledger at packaging time: 11 paid calls / 5.050000 USDT settled",
       "Security posture: private customer vulnerability details excluded from public launch materials",
-      "Scaling caveat: JSONL ledger scoped to declared single-instance or shared-volume deployment"
+      "Storage posture: Postgres ledger mode prepared; JSONL retained only as fallback/rollback path"
     ],
     links: [
       { label: "Judge bundle", href: "/judges", kind: "internal" },
@@ -239,6 +239,27 @@ export const proofLogEntries = [
     ],
     caveat:
       "This entry is public-safe. It intentionally omits customer-specific security findings and exploit details."
+  },
+  {
+    date: "2026-07-17",
+    title: "Postgres ledger cutover and backfill",
+    summary:
+      "AgentForge moved active production ledger writes to managed Postgres, backfilled historical JSONL evidence, reconciled the combined source to Postgres, and added a runtime alert probe for ledger_database readiness.",
+    metrics: [
+      "Production readiness: ledger_database ok",
+      "Reconciled Postgres records: 38",
+      "Ledger-backed paid calls: 11",
+      "Settled: 5.050000 USDT",
+      "Alert probe: /ready ledger_database and /ledger/summary"
+    ],
+    links: [
+      { label: "Judge bundle", href: "/judges", kind: "internal" },
+      { label: "Dashboard", href: "/dashboard", kind: "internal" },
+      { label: "Proof log", href: "/proof-log", kind: "internal" },
+      { label: "Buyer checkout", href: "/hire", kind: "internal" }
+    ],
+    caveat:
+      "The private ledger export and raw database URL are intentionally not public. Paid smoke tests still require explicit spend approval."
   }
 ] as const satisfies readonly ProofLogEntry[];
 

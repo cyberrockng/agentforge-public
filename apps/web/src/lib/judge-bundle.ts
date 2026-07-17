@@ -110,6 +110,12 @@ export async function getJudgeBundle(options: DashboardSummaryOptions = {}): Pro
         title: "Production hardening and launch packaging",
         body:
           "The paid path now has preflight quote binding, recovery instructions, post-settlement bookkeeping warnings, listener-level 402 tests, outage drills, catalog parity checks, and live no-payment runtime verification. Customer-specific vulnerability findings remain private and are not part of this public bundle."
+      },
+      {
+        date: "2026-07-17",
+        title: "Postgres-backed ledger cutover",
+        body:
+          "Production ledger writes now target managed Postgres. Historical JSONL evidence was backfilled and reconciled to 38 Postgres records covering 11 delivered paid calls, with ledger_database readiness and a runtime alert probe passing after migration."
       }
     ],
     primaryLinks: [
